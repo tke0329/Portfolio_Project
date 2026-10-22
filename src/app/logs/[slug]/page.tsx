@@ -14,5 +14,6 @@ export default async function LogDetailPage({ params }: { params: Promise<{ slug
   const { slug } = await params;
   const log = logs.find((item) => item.slug === slug);
   if (!log) notFound();
-  return <div className="interior-page"><article className="shell page-content"><span className="eyebrow">{log.category} / {log.date}</span><h1>{log.title}</h1><p>{log.summary}</p></article></div>;
+  const { default: Article } = await import(`@/content/logs/${slug}.mdx`);
+  return <div className="interior-page"><article className="shell page-content log-article"><span className="eyebrow">{log.category} / {log.date}</span><h1>{log.title}</h1><p className="log-summary">{log.summary}</p><div className="log-body"><Article /></div></article></div>;
 }
