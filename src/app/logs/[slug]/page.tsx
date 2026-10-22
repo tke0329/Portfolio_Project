@@ -1,0 +1,18 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { logs } from "@/data/logs";
+
+export function generateStaticParams() { return logs.map(({ slug }) => ({ slug })); }
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const log = logs.find((item) => item.slug === slug);
+  return { title: log?.title ?? "Engineering Log", description: log?.summary };
+}
+
+export default async function LogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const log = logs.find((item) => item.slug === slug);
+  if (!log) notFound();
+  return <div className="interior-page"><article className="shell page-content"><span className="eyebrow">{log.category} / {log.date}</span><h1>{log.title}</h1><p>{log.summary}</p></article></div>;
+}
