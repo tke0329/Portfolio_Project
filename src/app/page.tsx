@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ChevronDown ,ArrowUpRight, BookOpenText, CodeXml, Compass, Mail } from "lucide-react";
+import { ChevronDown, BookOpenText, CodeXml, Compass, Mail, Dot } from "lucide-react";
 import { HeroNpcChat } from "@/components/hero-npc-chat";
+import { HomeNewsPreview } from "@/components/home-news-preview";
 import { NpcDialogue } from "@/components/npc-dialogue";
 import { profile } from "@/data/profile";
 import { logs } from "@/data/logs";
@@ -13,7 +14,7 @@ export default function HomePage() {
         <div className="hero-shade" />
         <div className="shell hero-inner">
           <div className="hero-copy">
-            <span className="eyebrow"><span className="eyebrow-line" /> DEVELOPER PORTFOLIO</span>
+            <span className="eyebrow">DEVELOPER PORTFOLIO</span>
             <h1 id="hero-title">평범한<br /><em>마법사인</em> 내가<br />이 세계에선<br /><em>개발자?</em></h1>
             <p>{profile.introduction}</p>
             <div className="hero-actions"><NpcDialogue label="NPC에게 길 묻기" /></div>
@@ -22,6 +23,8 @@ export default function HomePage() {
           <span className="scroll-hint">SCROLL TO EXPLORE <span className="scroll-hint"><ChevronDown size={15}/></span></span>
         </div>
       </section>
+
+      <HomeNewsPreview />
 
       <section className="board-world board-below" aria-labelledby="board-title">
         <div className="shell noticeboard-wrap">

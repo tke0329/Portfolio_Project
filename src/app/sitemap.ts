@@ -4,7 +4,7 @@ import { logs } from "@/data/logs";
 import { siteUrl } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["", "/about", "/projects", "/skills", "/logs", "/contact"];
+  const paths = ["", "/about", "/projects", "/skills", "/logs", "/news", "/contact"];
   const publicProjects = projects.filter((project) => project.status === "published");
   return [
     ...paths.map((path) => ({ url: `${siteUrl}${path}`, lastModified: new Date() })),

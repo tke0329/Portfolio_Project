@@ -8,6 +8,7 @@ import { TodayVisitors } from "@/components/today-visitors";
 
 const links = [
   { href: "/", label: "홈" },
+  { href: "/news", label: "IT소식" },
   { href: "/about", label: "소개" },
   { href: "/projects", label: "프로젝트" },
   { href: "/skills", label: "기술" },
