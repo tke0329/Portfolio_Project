@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { RotateCcw, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { dialogues } from "@/data/dialogues";
+
 
 type NpcDialogueProps = { label?: string; className?: string };
 
@@ -56,9 +58,9 @@ export function NpcDialogue({ label = "NPC와 대화하기", className = "" }: N
   return (
     <>
       <button ref={trigger} type="button" className={`gold-button ${className}`} onClick={() => setOpen(true)}>
-        <span aria-hidden="true">✦</span> {label} <span aria-hidden="true">↗</span>
+        <span aria-hidden="true">✦</span>{label}<span aria-hidden="true"></span>
       </button>
-      {open && (
+      {open && createPortal((
         <div className="dialogue-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}>
           <div ref={panel} className="dialogue-panel" role="dialog" aria-modal="true" aria-labelledby="dialogue-title">
             <div className="dialogue-topline">
@@ -72,7 +74,7 @@ export function NpcDialogue({ label = "NPC와 대화하기", className = "" }: N
             <div className="dialogue-options">
               {node.options.map((option) => option.href ? (
                 <Link key={option.id} className="dialogue-option" href={option.href} onClick={close}>
-                  <span aria-hidden="true">◆</span> {option.label} <span aria-hidden="true">↗</span>
+                  <span aria-hidden="true">◆</span> {option.label} <span aria-hidden="true"></span>
                 </Link>
               ) : (
                 <button key={option.id} className="dialogue-option" type="button" onClick={() => setNodeId(option.nextNodeId ?? "start")}>
@@ -86,7 +88,7 @@ export function NpcDialogue({ label = "NPC와 대화하기", className = "" }: N
             </div>
           </div>
         </div>
-      )}
+      ), document.body)}
     </>
   );
 }

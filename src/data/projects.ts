@@ -8,46 +8,23 @@ export type Project = {
   technologies: string[];
   status: "draft" | "published";
   accent: string;
+  website?: string;
+  image?: string;
 };
 
-// The PRD lists these as candidates. Publish a case study only after verifying
-// the author's role, implementation details and permission to share them.
+// Projects contains shipped web services. Technical topics in preparation live in Log.
 export const projects: Project[] = [
   {
-    slug: "catcheat-infrastructure",
-    title: "Catcheat Infrastructure",
-    category: "Infrastructure",
-    summary: "공개 가능한 설계·구현 내용을 확인하고 있습니다.",
+    slug: "keyoff-lab",
+    title: "Keyoff Lab",
+    category: "Web App",
+    summary: "작곡가들이 자신의 포트폴리오를 직접 만들고 관리할 수 있는 음악 포트폴리오 사이트입니다.",
+    role: "사이트 제작",
     technologies: [],
-    status: "draft",
-    accent: "castle",
-  },
-  {
-    slug: "spring-security-jwt",
-    title: "Spring Security / JWT Authentication",
-    category: "Backend",
-    summary: "담당 범위와 문제 해결 과정을 정리하고 있습니다.",
-    technologies: [],
-    status: "draft",
-    accent: "shield",
-  },
-  {
-    slug: "madedex-comment-like",
-    title: "MadeDex Comment & Like",
-    category: "Backend",
-    summary: "공개 가능한 기능과 개인 기여를 확인하고 있습니다.",
-    technologies: [],
-    status: "draft",
-    accent: "book",
-  },
-  {
-    slug: "websocket-communication",
-    title: "WebSocket Communication",
-    category: "Backend",
-    summary: "구현 경험과 검증 결과를 정리하고 있습니다.",
-    technologies: [],
-    status: "draft",
-    accent: "portal",
+    status: "published",
+    accent: "keyoff",
+    website: "https://keyoff-lab.com",
+    image: "/images/keyoff-lab-home.webp",
   },
 ];
 

@@ -1,11 +1,36 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight, Layers3 } from "lucide-react";
 import { PageHeading } from "@/components/page-heading";
-import { skillCategories, skills } from "@/data/skills";
+import { languages, skillDomains } from "@/data/skills";
 
-export const metadata: Metadata = { title: "Tech Stack", description: "사용 경험과 학습 상태를 기준으로 기술을 소개합니다." };
+export const metadata: Metadata = {
+  title: "Tech Stack",
+  description: "정연수의 언어와 분야별 기술 스택을 소개합니다.",
+};
 
 export default function SkillsPage() {
-  return <div className="interior-page"><div className="shell page-content"><PageHeading eyebrow="TECH STACK / EQUIPMENT" title="문제를 해결하기 위해 기술을 사용합니다." description="기술 이름과 숙련도 수치보다, 실제로 어떤 맥락에서 사용했는지를 기록합니다." /><div className="skills-layout"><div className="category-rail">{skillCategories.map((category) => <span key={category}>{category}</span>)}</div><div className="rpg-panel skills-panel">{skills.length ? skillCategories.map((category) => <section key={category}><h2>{category}</h2><div className="skill-grid">{skills.filter((skill) => skill.category === category).map((skill) => <div className="skill-card" key={skill.name}><strong>{skill.name}</strong><span>{skill.experience}</span><p>{skill.detail}</p>{skill.relatedProjects.map((slug) => <Link href={`/projects/${slug}`} key={slug}>관련 프로젝트 <ArrowRight size={13} /></Link>)}</div>)}</div></section>) : <div className="waiting-panel"><Layers3 size={40} /><h2>기술 경험을 정리하고 있습니다.</h2><p>사용한 기술과 프로젝트별 적용 경험을 확인한 뒤 이곳에 추가합니다. 학습 중인 분야는 별도로 표시합니다.</p></div>}</div></div></div></div>;
+  return (
+    <div className="interior-page">
+      <div className="shell page-content">
+        <PageHeading
+          eyebrow="TECH STACK / FIELD NOTES"
+          title="분야를 넘나들며 쌓은 기술"
+          description="사용해 온 언어와 기술을 분야별로 정리했습니다."
+        />
+        <section className="tech-languages" aria-labelledby="languages-title">
+          <div><span className="eyebrow">FOUNDATION</span><h2 id="languages-title">Language</h2></div>
+          <div className="tech-language-list">{languages.map((language) => <span key={language}>{language}</span>)}</div>
+        </section>
+        <div className="domain-heading"><div><span className="eyebrow">SKILL AREAS</span><h2>분야별 기술</h2></div></div>
+        <div className="skill-domain-grid">
+          {skillDomains.map((domain, index) => (
+            <section className={`skill-domain-card domain-${domain.id}`} key={domain.id} aria-labelledby={`domain-${domain.id}`}>
+              <div className="domain-card-heading"><span className="domain-index">0{index + 1} / FIELD</span></div>
+              <h3 id={`domain-${domain.id}`}>{domain.name}</h3>
+              <ul>{domain.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul>
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

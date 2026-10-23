@@ -4,14 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { TodayVisitors } from "@/components/today-visitors";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/skills", label: "Tech Stack" },
-  { href: "/logs", label: "Log" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "홈" },
+  { href: "/about", label: "소개" },
+  { href: "/projects", label: "프로젝트" },
+  { href: "/skills", label: "기술" },
+  { href: "/logs", label: "기록" },
+  { href: "/contact", label: "연락" },
 ];
 
 export function SiteHeader() {
@@ -25,7 +26,7 @@ export function SiteHeader() {
       <div className="header-inner shell">
         <Link className="brand" href="/" onClick={() => setMenuOpen(false)} aria-label="The Helpful NPC 홈">
           <span className="brand-mark" aria-hidden="true">✦</span>
-          <span>The Helpful NPC</span>
+          <span>JEONG YEON SU</span>
         </Link>
         <nav className="desktop-nav" aria-label="주 메뉴">
           {links.map((link) => (
@@ -38,6 +39,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
+        <TodayVisitors />
         <button
           className="menu-button"
           type="button"

@@ -1,11 +1,48 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { PageHeading } from "@/components/page-heading";
-import { logs } from "@/data/logs";
+import { logGroups, logs } from "@/data/logs";
+import { profile } from "@/data/profile";
 
-export const metadata: Metadata = { title: "Engineering Log", description: "설계와 문제 해결 과정을 기록합니다." };
+export const metadata: Metadata = { title: "Engineering Log", description: "정연수의 Velog 글을 주제별로 모았습니다." };
 
 export default function LogsPage() {
-  return <div className="interior-page"><div className="shell page-content"><PageHeading eyebrow="ENGINEERING LOG / JOURNAL" title="문제를 해결하며 배운 내용을 기록합니다." description="설계 판단과 문제 해결 과정을 글로 남깁니다." />{logs.length ? <div className="log-list">{logs.map((log) => <article key={log.slug}><Link href={`/logs/${log.slug}`}><span>{log.date} · {log.category}</span><h2>{log.title}</h2><p>{log.summary}</p></Link></article>)}</div> : <div className="rpg-panel waiting-panel log-waiting"><BookOpen size={42} /><h2>첫 번째 기록을 준비하고 있습니다.</h2><p>검증된 프로젝트 경험과 기술 기록을 정리해 공개하겠습니다.</p></div>}</div></div>;
+  return (
+    <div className="interior-page">
+      <div className="shell page-content">
+        <PageHeading
+          eyebrow="ENGINEERING LOG / FIELD JOURNAL"
+          title="만들면서 남긴 기록"
+          description={`Velog에 공개한 글 ${logs.length}편을 주제별로 모았습니다. 각 글의 전체 내용은 원문에서 읽을 수 있습니다.`}
+        />
+        <nav className="log-jump-links" aria-label="기록 주제 바로가기">
+          {logGroups.map((group) => <a href={`#log-group-${group.id}`} key={group.id}>{group.title}<span>{logs.filter((log) => log.group === group.id).length}</span></a>)}
+        </nav>
+        <div className="log-collections">
+          {logGroups.map((group) => {
+            const entries = logs.filter((log) => log.group === group.id);
+            return (
+              <section className="log-collection" key={group.id} aria-labelledby={`log-group-${group.id}`}>
+                <div className={`log-collection-head accent-${group.accent}`}>
+                  <div className="project-art" aria-hidden="true" />
+                  <div><span className="eyebrow">{String(entries.length).padStart(2, "0")} STORIES / {group.id.toUpperCase()}</span><h2 id={`log-group-${group.id}`}>{group.title}</h2><p>{group.description}</p></div>
+                </div>
+                <div className="log-entry-grid">
+                  {entries.map((log) => (
+                    <a className="log-entry" href={log.sourceUrl ?? `/logs/${log.slug}`} key={log.slug} target={log.sourceUrl ? "_blank" : undefined} rel={log.sourceUrl ? "noopener noreferrer" : undefined}>
+                      <span className="log-entry-meta"><time dateTime={log.date}>{log.date.replaceAll("-", ".")}</time><span>{log.category}</span></span>
+                      <h3>{log.title}</h3>
+                      <p>{log.summary}</p>
+                      <span className="log-entry-action">{log.sourceUrl ? "Velog에서 읽기" : "글 읽기"} <ArrowUpRight size={15} /></span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+        <a className="log-all-link" href={profile.blogUrl} target="_blank" rel="noopener noreferrer">Velog에서 전체 글 보기 <ArrowUpRight size={17} /></a>
+      </div>
+    </div>
+  );
 }

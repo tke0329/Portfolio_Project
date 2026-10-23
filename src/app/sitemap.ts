@@ -9,6 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...paths.map((path) => ({ url: `${siteUrl}${path}`, lastModified: new Date() })),
     ...publicProjects.map((project) => ({ url: `${siteUrl}/projects/${project.slug}`, lastModified: new Date() })),
-    ...logs.map((log) => ({ url: `${siteUrl}/logs/${log.slug}`, lastModified: new Date() })),
+    ...logs.filter((log) => log.status === "published" && !log.sourceUrl).map((log) => ({ url: `${siteUrl}/logs/${log.slug}`, lastModified: new Date() })),
   ];
 }
