@@ -5,7 +5,7 @@ import { getTechNews } from "@/lib/tech-news";
 
 export const metadata: Metadata = {
   title: "기술 소식",
-  description: "GeekNews, InfoQ, GitHub Blog의 최신 IT/기술 소식을 한곳에서 봅니다.",
+  description: "GeekNews, 전자신문, AI타임스의 최신 IT/기술 소식을 한곳에서 봅니다.",
 };
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,7 @@ export default async function NewsPage() {
           <div>
             <span className="news-kicker"><Sparkles size={14} aria-hidden="true" /> TECH BULLETIN</span>
             <h1>기술 소식지<span aria-hidden="true">.</span></h1>
-            <p>GeekNews, InfoQ, GitHub Blog의 개발 이야기를 모았습니다.<br />제목을 누르면 출처의 원문으로 이동합니다.</p>
+            <p>GeekNews, 전자신문, AI타임스의 최신 IT 이슈를 모았습니다.<br />제목을 누르면 출처의 원문으로 이동합니다.</p>
           </div>
           <div className="news-masthead-art" aria-hidden="true"><span>✦</span><span>NEWS</span><span>✦</span></div>
         </div>
@@ -46,8 +46,8 @@ export default async function NewsPage() {
             <span>출처별 최신 글을 번갈아 표시 · 약 30분 간격 갱신</span>
             <div className="news-source-links">
               <a href="https://news.hada.io" target="_blank" rel="noopener noreferrer">GeekNews <ArrowUpRight size={14} aria-hidden="true" /></a>
-              <a href="https://www.infoq.com" target="_blank" rel="noopener noreferrer">InfoQ <ArrowUpRight size={14} aria-hidden="true" /></a>
-              <a href="https://github.blog" target="_blank" rel="noopener noreferrer">GitHub Blog <ArrowUpRight size={14} aria-hidden="true" /></a>
+              <a href="https://www.etnews.com" target="_blank" rel="noopener noreferrer">전자신문 <ArrowUpRight size={14} aria-hidden="true" /></a>
+              <a href="https://www.aitimes.com" target="_blank" rel="noopener noreferrer">AI타임스 <ArrowUpRight size={14} aria-hidden="true" /></a>
             </div>
           </div>
         </div>

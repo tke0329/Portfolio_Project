@@ -7,13 +7,13 @@ import { NEWS_MAX_STALE_MS, resolveNews, type NewsSnapshot } from "./news-cache"
 const xmlParser = new XMLParser({ ignoreAttributes: false, parseTagValue: false });
 const FEED_TIMEOUT_MS = 3500;
 const FAILURE_RETRY_MS = 2 * 60 * 1000;
-const NEWS_CACHE_KEY = "helpful-npc:news:v1";
+const NEWS_CACHE_KEY = "helpful-npc:news:v3";
 const fetchOptions = { next: { revalidate: 1800 } };
 let memorySnapshot: NewsSnapshot | null = null;
 let pendingNews: Promise<NewsItem[]> | null = null;
 let retryAfter = 0;
 
-export type NewsSource = "GeekNews" | "InfoQ" | "GitHub Blog";
+export type NewsSource = "GeekNews" | "전자신문" | "AI타임스";
 
 export type NewsItem = {
   title: string;
@@ -38,7 +38,6 @@ function safeUrl(value: unknown, hostname: string, pathPrefix = "/"): string | n
   try {
     const url = new URL(value);
     if (url.protocol !== "https:" || url.hostname !== hostname || !url.pathname.startsWith(pathPrefix)) return null;
-    if (hostname === "www.infoq.com") url.search = "";
     return url.toString();
   } catch {
     return null;
@@ -59,7 +58,10 @@ function decodeEntities(value: string): string {
 
 function newsItem(source: NewsSource, titleValue: unknown, url: string | null, dateValue: unknown): NewsItem | null {
   const title = decodeEntities(text(titleValue));
-  const publishedAt = text(dateValue);
+  const rawDate = text(dateValue);
+  const publishedAt = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(rawDate)
+    ? `${rawDate.replace(" ", "T")}+09:00`
+    : rawDate;
   if (!title || !url || !publishedAt || Number.isNaN(Date.parse(publishedAt))) return null;
   return { source, title, url, publishedAt: new Date(publishedAt).toISOString() };
 }
@@ -103,8 +105,8 @@ async function safeLoad(source: NewsSource, load: () => Promise<NewsItem[]>): Pr
 async function loadFreshNews(): Promise<NewsItem[]> {
   const feeds = await Promise.all([
     safeLoad("GeekNews", geekNews),
-    safeLoad("InfoQ", () => rssNews("https://feed.infoq.com/", "InfoQ", "www.infoq.com")),
-    safeLoad("GitHub Blog", () => rssNews("https://github.blog/feed/", "GitHub Blog", "github.blog")),
+    safeLoad("전자신문", () => rssNews("https://rss.etnews.com/03.xml", "전자신문", "www.etnews.com")),
+    safeLoad("AI타임스", () => rssNews("https://www.aitimes.com/rss/allArticle.xml", "AI타임스", "www.aitimes.com")),
   ]);
 
   for (const feed of feeds) feed.sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
