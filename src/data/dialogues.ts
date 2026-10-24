@@ -46,7 +46,7 @@ export const dialogues: Record<string, DialogueNode> = {
   },
   news: {
     id: "news",
-    message: "GeekNews, InfoQ, GitHub Blog에서 모은 최신 기술 소식을 확인해 보세요.",
+    message: "GeekNews, 전자신문, AI타임스에서 모은 최신 IT 이슈를 확인해 보세요.",
     options: [
       { id: "go-news", label: "기술 소식지 열기", href: "/news" },
     ],
